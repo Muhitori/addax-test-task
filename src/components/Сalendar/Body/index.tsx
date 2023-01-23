@@ -1,18 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { FC } from "react";
-import { Day, Event } from "../../../types";
+import { useSelector } from "react-redux";
+import { currentDateSelector } from "../../../store/selectors/calendar.selector";
+import { getRenderedDays } from "../../../utils/date";
 import { WEEKDAYS } from "../constants";
 import { DayComponent } from "./Day";
-import { getRenderedDays } from "./utils";
 
-interface Props {
-	date: Date;
+export const Body: FC = () => {
+	const date = useSelector(currentDateSelector);
 
-	dayChange: (day: Day) => void;
-	events: Event[];
-}
-
-export const Body: FC<Props> = ({ date, dayChange, events }) => {
 	return (
 		<Box width='100%'>
 			<Box display='flex' justifyContent='space-between' px='6%'>
@@ -31,12 +27,7 @@ export const Body: FC<Props> = ({ date, dayChange, events }) => {
 				}}>
 				{getRenderedDays(date).map((day) => {
 					return (
-						<DayComponent
-							key={`${day.month}-${day.dayNumber}`}
-							day={day}
-							dayChange={dayChange}
-							events={events}
-						/>
+						<DayComponent key={`${day.month}-${day.dayNumber}`} day={day} />
 					);
 				})}
 			</Box>

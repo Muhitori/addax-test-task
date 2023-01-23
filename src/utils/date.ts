@@ -1,4 +1,4 @@
-import { Day } from "../../../types/Day";
+import { Day } from "../types/Day";
 
 const RENDER_DAYS_COUNT = 42;
 

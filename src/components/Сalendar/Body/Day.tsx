@@ -1,26 +1,19 @@
 import { Box, Typography } from "@mui/material";
 import { FC } from "react";
-import { Day, Event } from "../../../types";
+import { useDispatch, useSelector } from "react-redux";
+import { dayEventsSelector } from "../../../store/selectors/calendar.selector";
+import { setCurrentDate } from "../../../store/slices/calendar.slice";
+import { Day } from "../../../types";
 import { EventComponent } from "./Event";
-import { parseDate } from "./utils";
 
 interface Props {
 	day: Day;
-	dayChange: (day: Day) => void;
-	events: Event[];
 }
 
-export const DayComponent: FC<Props> = ({ day, dayChange, events }) => {
-	const dayEvents = events.filter((event) => {
-		const {
-			day: eventDay,
-			month: eventMonth,
-			year: eventYear,
-		} = parseDate(event.date);
-		const { dayNumber, month, year } = day;
+export const DayComponent: FC<Props> = ({ day }) => {
+	const dispatch = useDispatch();
 
-		return eventDay === dayNumber && eventMonth === month && eventYear === year;
-	});
+	const dayEvents = useSelector(dayEventsSelector(day));
 
 	return (
 		<Box
@@ -34,13 +27,13 @@ export const DayComponent: FC<Props> = ({ day, dayChange, events }) => {
 			border='1px solid black'
 			display='flex'
 			flexDirection='column'
-			onClick={() => dayChange(day)}>
+			onClick={() => dispatch(setCurrentDate(day))}>
 			<Typography fontSize={18} variant='body2'>
 				{day.dayNumber}
 			</Typography>
 
 			{dayEvents?.map((event) => (
-				<EventComponent event={event} />
+				<EventComponent key={event.id} event={event} />
 			))}
 		</Box>
 	);
