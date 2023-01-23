@@ -17,8 +17,8 @@ const initialState: State = {
 			color: "red",
 			date: new Date(),
 			tags: [
-				{ title: "tag1", color: "green" },
-				{ title: "tag2", color: "yellow" },
+				{ id: crypto.randomUUID(), title: "tag1", color: "green" },
+				{ id: crypto.randomUUID(), title: "tag2", color: "yellow" },
 			],
 		},
 	],

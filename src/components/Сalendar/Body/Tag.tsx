@@ -1,11 +1,29 @@
-import { Box } from "@mui/system";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { FC } from "react";
 import { Tag } from "../../../types";
 
 interface Props {
-	tags: Tag[];
+	tag: Tag;
 }
 
-export const TagComponent: FC<Props> = () => {
-	return <Box />;
+export const TagComponent: FC<Props> = ({ tag: { id, title, color } }) => {
+	return (
+		<Tooltip title={title}>
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					width: "32px",
+					height: "8px",
+					backgroundColor: color,
+					borderRadius: "5px",
+					cursor: "pointer",
+				}}>
+				<Typography fontSize={8} variant='caption'>
+					{title}
+				</Typography>
+			</Box>
+		</Tooltip>
+	);
 };

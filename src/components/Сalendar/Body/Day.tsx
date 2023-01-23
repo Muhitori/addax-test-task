@@ -15,6 +15,8 @@ export const DayComponent: FC<Props> = ({ day }) => {
 
 	const dayEvents = useSelector(dayEventsSelector(day));
 
+	const handleClick = () => dispatch(setCurrentDate(day));
+
 	return (
 		<Box
 			sx={{
@@ -27,7 +29,7 @@ export const DayComponent: FC<Props> = ({ day }) => {
 			border='1px solid black'
 			display='flex'
 			flexDirection='column'
-			onClick={() => dispatch(setCurrentDate(day))}>
+			onClick={handleClick}>
 			<Typography fontSize={18} variant='body2'>
 				{day.dayNumber}
 			</Typography>
