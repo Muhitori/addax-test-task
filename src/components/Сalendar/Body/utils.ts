@@ -22,7 +22,7 @@ export const getRenderedDays = (date: Date) => {
 			isCurrentMonth: firstDayOfMonth.getMonth() === date.getMonth(),
 			date: new Date(firstDayOfMonth),
 			month: firstDayOfMonth.getMonth(),
-			number: firstDayOfMonth.getDate(),
+			dayNumber: firstDayOfMonth.getDate(),
 			selected: firstDayOfMonth.toDateString() === date.toDateString(),
 			year: firstDayOfMonth.getFullYear(),
 		};
@@ -32,3 +32,9 @@ export const getRenderedDays = (date: Date) => {
 
 	return currentDays;
 };
+
+export const parseDate = (date: Date) => ({
+	day: date.getDate(),
+	month: date.getMonth(),
+	year: date.getFullYear(),
+});

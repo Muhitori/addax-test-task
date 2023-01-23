@@ -2,7 +2,7 @@ export interface Day {
 	isCurrentMonth: boolean;
 	date: Date;
 	month: number;
-	number: number;
+	dayNumber: number;
 	selected: boolean;
 	year: number;
 }
