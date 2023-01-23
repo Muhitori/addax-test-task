@@ -21,6 +21,13 @@ const initialState: State = {
 				{ id: crypto.randomUUID(), title: "tag2", color: "yellow" },
 			],
 		},
+		{
+			id: crypto.randomUUID(),
+			title: "test2",
+			color: "yellow",
+			date: new Date(),
+			tags: [{ id: crypto.randomUUID(), title: "tag3", color: "brown" }],
+		},
 	],
 };
 
@@ -29,9 +36,10 @@ export const calendarSlice = createSlice({
 	initialState,
 	reducers: {
 		setCurrentDate: (state, action: PayloadAction<Day>) => {
-			if (!action.payload.date) return;
+			const { date } = action.payload;
+			if (!date) return;
 
-			state.currentDate = action.payload.date;
+			state.currentDate = date;
 		},
 	},
 });

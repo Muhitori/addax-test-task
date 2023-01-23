@@ -11,9 +11,9 @@ export const Body: FC = () => {
 
 	return (
 		<Box width='100%'>
-			<Box display='flex' justifyContent='space-between' px='6%'>
+			<Box display='flex' justifyContent='space-between'>
 				{WEEKDAYS.map((weekday) => (
-					<Typography sx={{ width: "calc(100%/8)" }} key={weekday}>
+					<Typography sx={{ width: "calc(100%/7)" }} key={weekday}>
 						{weekday}
 					</Typography>
 				))}
