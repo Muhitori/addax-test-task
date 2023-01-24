@@ -16,6 +16,11 @@ interface ReorderEventPayload {
 	endIndex: number;
 }
 
+interface RemoveEventPayload {
+	eventId: string;
+	date: Date;
+}
+
 interface State {
 	currentDate: Date;
 	events: Event[];
@@ -134,10 +139,32 @@ export const calendarSlice = createSlice({
 			const [removed] = day.events.splice(startIndex, 1);
 			day.events.splice(endIndex, 0, removed);
 		},
+		removeEvent: (state, action: PayloadAction<RemoveEventPayload>) => {
+			const { eventId, date } = action.payload;
+
+			state.events = state.events.filter((event) => event.id !== eventId);
+
+			state.days = state.days.map((day) => {
+				if (day.date === date) {
+					return {
+						...day,
+						events: day.events?.filter((event) => event.id !== eventId),
+					};
+				}
+
+				return day;
+			});
+		},
 	},
 });
 
-export const { addEvent, addTag, setCurrentDate, moveEvent, reorderEvents } =
-	calendarSlice.actions;
+export const {
+	addEvent,
+	addTag,
+	setCurrentDate,
+	moveEvent,
+	reorderEvents,
+	removeEvent,
+} = calendarSlice.actions;
 
 export default calendarSlice.reducer;

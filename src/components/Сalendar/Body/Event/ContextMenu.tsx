@@ -1,6 +1,7 @@
 import { Menu, MenuItem } from "@mui/material";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
+import { removeEvent } from "../../../../store/slices/calendar.slice";
 import { toggleModal } from "../../../../store/slices/ui.slice";
 import { Event } from "../../../../types";
 
@@ -30,6 +31,7 @@ export const ContextMenu: FC<Props> = ({
 	};
 
 	const handleRemoveEvent = () => {
+		dispatch(removeEvent({ date: event.date, eventId: event.id }));
 		handleClose();
 	};
 

@@ -23,12 +23,12 @@ export const EventModal = () => {
 
 	const handleClose = () => {
 		dispatch(toggleModal({ modal: "eventModal", data: null }));
+		setTitle("");
+		setColor("");
 	};
 
 	const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setTitle(event.target.value);
-		setTitle("");
-		setColor("");
 	};
 
 	const handleColorChange = (event: ChangeEvent<HTMLInputElement>) => {
