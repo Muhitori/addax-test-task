@@ -1,8 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { Day, Event, EventDto, TagDto } from "../../types";
 import { dayToEventComporator, getRenderedDays } from "../../utils/date";
+import { HolidayService } from "../../services/HolidayService";
+import { HOLIDAY_COLOR, HOLIDAY_TAG_COLOR } from "../../utils/constants";
 
 interface MoveEventPayload {
 	eventId: string;
@@ -22,15 +24,26 @@ interface RemoveEventPayload {
 }
 
 interface State {
-	currentDate: Date;
+	currentDate: Date | null;
 	events: Event[];
+	holidays: Event[];
 	days: Day[];
 }
 
+export const getHolidaysAsync = createAsyncThunk(
+	"get/holidays",
+	async (year: number) => {
+		const holidays = await HolidayService.getHolidays(year);
+
+		return holidays;
+	}
+);
+
 const initialState: State = {
-	currentDate: new Date(),
+	currentDate: null,
 	days: [],
 	events: [],
+	holidays: [],
 };
 
 export const calendarSlice = createSlice({
@@ -100,7 +113,8 @@ export const calendarSlice = createSlice({
 				);
 
 				if (dayEvents.length) {
-					return { ...day, events: dayEvents };
+					const oldEvents = day.events || [];
+					return { ...day, events: [...oldEvents, ...dayEvents] };
 				}
 
 				return day;
@@ -145,10 +159,10 @@ export const calendarSlice = createSlice({
 			const { date, startIndex, endIndex } = action.payload;
 			const day = state.days.find((day) => day.date.toISOString() === date);
 
-			if (!day || !day.events) return state;
-
-			const [removed] = day.events.splice(startIndex, 1);
-			day.events.splice(endIndex, 0, removed);
+			if (day && day?.events) {
+				const [removed] = day?.events?.splice(startIndex, 1);
+				day?.events?.splice(endIndex, 0, removed);
+			}
 		},
 		removeEvent: (state, action: PayloadAction<RemoveEventPayload>) => {
 			const { eventId, date } = action.payload;
@@ -166,6 +180,39 @@ export const calendarSlice = createSlice({
 				return day;
 			});
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(getHolidaysAsync.fulfilled, (state, action) => {
+			const holidays = action.payload;
+
+			const events: Event[] = holidays.map(({ name, date }) => ({
+				id: crypto.randomUUID(),
+				title: name,
+				date: new Date(date),
+				color: HOLIDAY_COLOR,
+				tags: [
+					{
+						id: crypto.randomUUID(),
+						title: "Holiday",
+						color: HOLIDAY_TAG_COLOR,
+					},
+				],
+			}));
+
+			state.holidays = events;
+
+			state.days = state.days.map((day) => {
+				const holidays = state.holidays.filter((event) =>
+					dayToEventComporator(day, event)
+				);
+
+				if (holidays.length) {
+					return { ...day, holidays };
+				}
+
+				return day;
+			});
+		});
 	},
 });
 

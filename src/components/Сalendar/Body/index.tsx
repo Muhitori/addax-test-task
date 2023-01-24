@@ -1,14 +1,22 @@
 import { Box, Typography } from "@mui/material";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import {
 	DragDropContext,
 	DropResult,
 	ResponderProvided,
 } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { daysSelector } from "../../../store/selectors/calendar.selector";
-import { moveEvent, reorderEvents } from "../../../store/slices/calendar.slice";
-import { WEEKDAYS } from "../constants";
+import {
+	currentDateSelector,
+	daysSelector,
+} from "../../../store/selectors/calendar.selector";
+import {
+	getHolidaysAsync,
+	moveEvent,
+	reorderEvents,
+} from "../../../store/slices/calendar.slice";
+import { AppDispatch } from "../../../store/store";
+import { WEEKDAYS } from "../../../utils/constants";
 import { DayComponent } from "./Day";
 import { EventModal } from "./modal/EventModal";
 import { TagModal } from "./modal/TagModal";
@@ -19,9 +27,16 @@ interface Props {
 }
 
 export const Body: FC<Props> = ({ eventSearchValue, tagSearchValue }) => {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<AppDispatch>();
 
 	const days = useSelector(daysSelector);
+	const currentDate = useSelector(currentDateSelector);
+
+	useEffect(() => {
+		if (currentDate?.getFullYear()) {
+			dispatch(getHolidaysAsync(currentDate.getFullYear()));
+		}
+	}, [currentDate, dispatch]);
 
 	const handleDragEnd = (result: DropResult, provided: ResponderProvided) => {
 		if (!result.destination) {

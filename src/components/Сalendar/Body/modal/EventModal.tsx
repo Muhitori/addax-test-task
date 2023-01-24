@@ -59,7 +59,9 @@ export const EventModal = () => {
 				</Box>
 			</DialogContent>
 			<DialogActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-				<Button onClick={handleSave}>Save</Button>
+				<Button variant='contained' onClick={handleSave}>
+					Save
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

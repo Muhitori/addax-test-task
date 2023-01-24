@@ -8,4 +8,5 @@ export interface Day {
 	selected: boolean;
 	year: number;
 	events?: Event[];
+	holidays?: Event[];
 }

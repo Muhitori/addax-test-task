@@ -14,6 +14,7 @@
     "@types/node": "^16.18.11",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "axios": "^1.2.4",
     "html-to-image": "^1.11.4",
     "moment": "^2.29.4",
     "npm": "^9.3.1",

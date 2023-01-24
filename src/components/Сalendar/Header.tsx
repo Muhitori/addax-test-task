@@ -13,7 +13,7 @@ import {
 	tagsSelector,
 } from "../../store/selectors/calendar.selector";
 import { toPng } from "html-to-image";
-import { MONTHS } from "./constants";
+import { MONTHS } from "../../utils/constants";
 
 interface Props {
 	eventSearchValue: string;
@@ -61,9 +61,11 @@ export const Header: FC<Props> = ({
 
 	return (
 		<Box display='flex' justifyContent='space-between' px={10}>
-			<Typography variant='h3'>
-				{`${MONTHS[date.getMonth()]} ${date.getFullYear()}`}
-			</Typography>
+			{date && (
+				<Typography variant='h3'>
+					{`${MONTHS[date.getMonth()]} ${date.getFullYear()}`}
+				</Typography>
+			)}
 			<TextField
 				label='Events search'
 				value={eventSearchValue}
@@ -78,10 +80,18 @@ export const Header: FC<Props> = ({
 				renderInput={(params) => <TextField {...params} label='Tags' />}
 			/>
 			<Box display='flex' gap={2}>
-				<Button onClick={handleJSONDownload} variant='contained'>
+				<Button
+					size='small'
+					disableElevation
+					onClick={handleJSONDownload}
+					variant='contained'>
 					Export as JSON
 				</Button>
-				<Button onClick={handleImageDownload} variant='contained'>
+				<Button
+					size='small'
+					disableElevation
+					onClick={handleImageDownload}
+					variant='contained'>
 					Export as Image
 				</Button>
 			</Box>

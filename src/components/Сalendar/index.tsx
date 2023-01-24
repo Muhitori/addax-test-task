@@ -12,7 +12,8 @@ export const Calendar = () => {
 	const [tagSearchValue, setTagSearchValue] = useState<string[]>([]);
 
 	useEffect(() => {
-		dispatch(setCurrentDate(new Date()));
+		const date = new Date();
+		dispatch(setCurrentDate(date));
 	}, [dispatch]);
 
 	const handleEventSearchValueChange = (value: string) => {
