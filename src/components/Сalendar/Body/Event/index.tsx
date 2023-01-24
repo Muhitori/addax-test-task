@@ -7,15 +7,21 @@ import { TagComponent } from "./Tag";
 
 interface Props {
 	event: Event;
+	disabledContextMenu?: boolean;
 }
 
-export const EventComponent: FC<Props> = ({ event }) => {
+export const EventComponent: FC<Props> = ({ event, disabledContextMenu }) => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
 	const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
 		event.stopPropagation();
 		event.preventDefault();
+
+		if (disabledContextMenu) {
+			return;
+		}
+
 		setAnchorEl(event.currentTarget);
 	};
 

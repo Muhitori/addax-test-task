@@ -85,7 +85,7 @@ export const DayComponent: FC<Props> = ({
 			</Typography>
 
 			{renderedHolidays?.map((holiday) => (
-				<EventComponent key={holiday.id} event={holiday} />
+				<EventComponent key={holiday.id} event={holiday} disabledContextMenu />
 			))}
 
 			<Droppable droppableId={day.date.toISOString()}>

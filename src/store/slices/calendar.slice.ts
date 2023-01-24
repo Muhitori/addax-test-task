@@ -170,7 +170,7 @@ export const calendarSlice = createSlice({
 			state.events = state.events.filter((event) => event.id !== eventId);
 
 			state.days = state.days.map((day) => {
-				if (day.date === date) {
+				if (day.date.toISOString() === date.toISOString()) {
 					return {
 						...day,
 						events: day.events?.filter((event) => event.id !== eventId),
