@@ -1,6 +1,6 @@
 import { Box, Tooltip, Typography } from "@mui/material";
 import { FC } from "react";
-import { Tag } from "../../../types";
+import { Tag } from "../../../../types";
 
 interface Props {
 	tag: Tag;

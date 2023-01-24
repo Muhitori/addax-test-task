@@ -6,11 +6,11 @@ import { Body } from "./Body";
 import { Header } from "./Header";
 
 export const Calendar = () => {
-	const appDispatch = useDispatch();
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		appDispatch(setCurrentDate(new Date()));
-	}, [appDispatch]);
+		dispatch(setCurrentDate(new Date()));
+	}, [dispatch]);
 
 	return (
 		<Box width='100%'>

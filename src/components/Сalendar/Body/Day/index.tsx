@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import { Droppable } from "react-beautiful-dnd";
-import { FC, useMemo } from "react";
-import { useDispatch } from "react-redux";
-import { setCurrentDate } from "../../../store/slices/calendar.slice";
-import { Day } from "../../../types";
-import { EventComponent } from "./Event";
+import { FC, useMemo, useState } from "react";
+import { Day } from "../../../../types";
+import { EventComponent } from "../Event";
+import { ContextMenu } from "./ContextMenu";
 
 interface Props {
 	day: Day;
@@ -15,7 +14,17 @@ const CURRENT_MONTH_COLOR = "black";
 const NOT_CURRENT_MONTH_COLOR = "#95a5a6";
 
 export const DayComponent: FC<Props> = ({ day }) => {
-	const appDispatch = useDispatch();
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+
+	const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
+		event.preventDefault();
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
 	const backgroundColor = useMemo(
 		() => (day.selected ? SELECTED_COLOR : undefined),
@@ -26,8 +35,6 @@ export const DayComponent: FC<Props> = ({ day }) => {
 		() => (day.isCurrentMonth ? CURRENT_MONTH_COLOR : NOT_CURRENT_MONTH_COLOR),
 		[day]
 	);
-
-	const handleClick = () => appDispatch(setCurrentDate(day.date));
 
 	return (
 		<Droppable droppableId={day.date.toISOString()}>
@@ -48,7 +55,8 @@ export const DayComponent: FC<Props> = ({ day }) => {
 						}}
 						border='1px solid black'
 						display='flex'
-						flexDirection='column'>
+						flexDirection='column'
+						onContextMenu={handleRightClick}>
 						<Typography fontSize={18} variant='body2'>
 							{day.dayNumber}
 						</Typography>
@@ -57,6 +65,12 @@ export const DayComponent: FC<Props> = ({ day }) => {
 							<EventComponent key={event.id} event={event} index={index} />
 						))}
 					</Box>
+					<ContextMenu
+						anchorEl={anchorEl}
+						open={open}
+						handleClose={handleClose}
+						day={day}
+					/>
 					{provided.placeholder}
 				</div>
 			)}

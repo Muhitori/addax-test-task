@@ -12,7 +12,7 @@ import { WEEKDAYS } from "../constants";
 import { DayComponent } from "./Day";
 
 export const Body: FC = () => {
-	const appDispatch = useDispatch();
+	const dispatch = useDispatch();
 
 	const days = useSelector(daysSelector);
 
@@ -24,7 +24,7 @@ export const Body: FC = () => {
 		const { draggableId, source, destination } = result;
 
 		if (source.droppableId !== destination.droppableId) {
-			appDispatch(
+			dispatch(
 				moveEvent({
 					eventId: draggableId,
 					oldDate: source.droppableId,
@@ -35,7 +35,7 @@ export const Body: FC = () => {
 			return;
 		}
 
-		appDispatch(
+		dispatch(
 			reorderEvents({
 				date: destination.droppableId,
 				startIndex: source.index,

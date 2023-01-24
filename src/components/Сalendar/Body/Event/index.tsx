@@ -1,7 +1,8 @@
 import { Box } from "@mui/system";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { Event } from "../../../types";
+import { Event } from "../../../../types";
+import { ContextMenu } from "./ContextMenu";
 import { TagComponent } from "./Tag";
 
 interface Props {
@@ -10,6 +11,19 @@ interface Props {
 }
 
 export const EventComponent: FC<Props> = ({ event, index }) => {
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+
+	const handleRightClick = (event: React.MouseEvent<HTMLElement>) => {
+		event.stopPropagation();
+		event.preventDefault();
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
 	return (
 		<Draggable draggableId={event.id} index={index}>
 			{(provided, snapshot) => (
@@ -23,7 +37,8 @@ export const EventComponent: FC<Props> = ({ event, index }) => {
 						fontSize={12}
 						borderRadius={5}
 						px={2}
-						mb={1}>
+						mb={1}
+						onContextMenu={handleRightClick}>
 						{event.title}
 
 						<Box
@@ -39,6 +54,12 @@ export const EventComponent: FC<Props> = ({ event, index }) => {
 							))}
 						</Box>
 					</Box>
+					<ContextMenu
+						anchorEl={anchorEl}
+						open={open}
+						handleClose={handleClose}
+						event={event}
+					/>
 				</div>
 			)}
 		</Draggable>
