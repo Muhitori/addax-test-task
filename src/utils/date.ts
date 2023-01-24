@@ -1,4 +1,4 @@
-import { Day } from "../types/Day";
+import { Day, Event } from "../types";
 
 const RENDER_DAYS_COUNT = 42;
 
@@ -38,3 +38,14 @@ export const parseDate = (date: Date) => ({
 	month: date.getMonth(),
 	year: date.getFullYear(),
 });
+
+export const dayToEventComporator = (day: Day, event: Event) => {
+	const {
+		day: eventDay,
+		month: eventMonth,
+		year: eventYear,
+	} = parseDate(event.date);
+	const { dayNumber, month, year } = day;
+
+	return eventDay === dayNumber && eventMonth === month && eventYear === year;
+};

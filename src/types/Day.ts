@@ -1,3 +1,5 @@
+import { Event } from "./Event";
+
 export interface Day {
 	isCurrentMonth: boolean;
 	date: Date;
@@ -5,4 +7,5 @@ export interface Day {
 	dayNumber: number;
 	selected: boolean;
 	year: number;
+	events?: Event[];
 }
