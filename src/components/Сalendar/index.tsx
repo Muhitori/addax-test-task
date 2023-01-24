@@ -9,6 +9,7 @@ export const Calendar = () => {
 	const dispatch = useDispatch();
 
 	const [eventSearchValue, setEventSearchValue] = useState("");
+	const [tagSearchValue, setTagSearchValue] = useState<string[]>([]);
 
 	useEffect(() => {
 		dispatch(setCurrentDate(new Date()));
@@ -18,13 +19,22 @@ export const Calendar = () => {
 		setEventSearchValue(value);
 	};
 
+	const handleTagSearchValueChange = (value: string[]) => {
+		setTagSearchValue(value);
+	};
+
 	return (
 		<Box width='100%' p={3}>
 			<Header
 				eventSearchValue={eventSearchValue}
+				tagSearchValue={tagSearchValue}
 				onEventSearchValueChange={handleEventSearchValueChange}
+				onTagSearchValueChange={handleTagSearchValueChange}
 			/>
-			<Body eventSearchValue={eventSearchValue} />
+			<Body
+				eventSearchValue={eventSearchValue}
+				tagSearchValue={tagSearchValue}
+			/>
 		</Box>
 	);
 };

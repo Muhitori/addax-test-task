@@ -41,6 +41,8 @@ export const calendarSlice = createSlice({
 			const { date } = action.payload;
 			const event = { id: crypto.randomUUID(), ...action.payload };
 
+			state.events = [...state.events, event];
+
 			state.days = state.days.map((day) => {
 				if (day.date === date) {
 					const dayEvents = day.events || [];
@@ -56,6 +58,15 @@ export const calendarSlice = createSlice({
 		addTag: (state, action: PayloadAction<TagDto>) => {
 			const { date, eventId } = action.payload;
 			const tag = { id: crypto.randomUUID(), ...action.payload };
+
+			state.events = state.events.map((event) => {
+				if (event.id === eventId) {
+					const eventTags = event.tags || [];
+					return { ...event, tags: [...eventTags, tag] };
+				}
+
+				return event;
+			});
 
 			state.days = state.days.map((day) => {
 				if (day.date === date) {

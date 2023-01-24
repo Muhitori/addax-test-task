@@ -8,16 +8,30 @@ import { ContextMenu } from "./ContextMenu";
 interface Props {
 	day: Day;
 	eventSearchValue: string;
+	tagSearchValue: string[];
 }
 
 const SELECTED_COLOR = "#3498db";
 const CURRENT_MONTH_COLOR = "black";
 const NOT_CURRENT_MONTH_COLOR = "#95a5a6";
 
-export const DayComponent: FC<Props> = ({ day, eventSearchValue }) => {
-	const renderedEvents = day.events?.filter((event) =>
-		event.title.includes(eventSearchValue)
-	);
+export const DayComponent: FC<Props> = ({
+	day,
+	eventSearchValue,
+	tagSearchValue,
+}) => {
+	const renderedEvents = day.events?.filter((event) => {
+		const titleMatched = event.title.includes(eventSearchValue);
+		const tagIncluded = event.tags?.some(({ title }) =>
+			tagSearchValue.includes(title)
+		);
+
+		if (!tagSearchValue.length) {
+			return titleMatched;
+		}
+
+		return titleMatched && tagIncluded;
+	});
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);

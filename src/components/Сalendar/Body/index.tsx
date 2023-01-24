@@ -15,9 +15,10 @@ import { TagModal } from "./modal/TagModal";
 
 interface Props {
 	eventSearchValue: string;
+	tagSearchValue: string[];
 }
 
-export const Body: FC<Props> = ({ eventSearchValue }) => {
+export const Body: FC<Props> = ({ eventSearchValue, tagSearchValue }) => {
 	const dispatch = useDispatch();
 
 	const days = useSelector(daysSelector);
@@ -74,6 +75,7 @@ export const Body: FC<Props> = ({ eventSearchValue }) => {
 								key={`${day.month}-${day.dayNumber}`}
 								day={day}
 								eventSearchValue={eventSearchValue}
+								tagSearchValue={tagSearchValue}
 							/>
 						);
 					})}
