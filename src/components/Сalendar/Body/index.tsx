@@ -13,7 +13,11 @@ import { DayComponent } from "./Day";
 import { EventModal } from "./modal/EventModal";
 import { TagModal } from "./modal/TagModal";
 
-export const Body: FC = () => {
+interface Props {
+	eventSearchValue: string;
+}
+
+export const Body: FC<Props> = ({ eventSearchValue }) => {
 	const dispatch = useDispatch();
 
 	const days = useSelector(daysSelector);
@@ -66,7 +70,11 @@ export const Body: FC = () => {
 					}}>
 					{days.map((day) => {
 						return (
-							<DayComponent key={`${day.month}-${day.dayNumber}`} day={day} />
+							<DayComponent
+								key={`${day.month}-${day.dayNumber}`}
+								day={day}
+								eventSearchValue={eventSearchValue}
+							/>
 						);
 					})}
 				</Box>

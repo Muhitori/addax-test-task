@@ -1,15 +1,30 @@
-import { Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { FC } from "react";
 import { useSelector } from "react-redux/es/exports";
 import { currentDateSelector } from "../../store/selectors/calendar.selector";
 import { MONTHS } from "./constants";
 
-export const Header: FC = () => {
+interface Props {
+	eventSearchValue: string;
+	onEventSearchValueChange: (value: string) => void;
+}
+
+export const Header: FC<Props> = ({
+	eventSearchValue,
+	onEventSearchValueChange,
+}) => {
 	const date = useSelector(currentDateSelector);
 
 	return (
-		<Typography variant='h3' pl='6%'>
-			{`${MONTHS[date.getMonth()]} ${date.getFullYear()}`}
-		</Typography>
+		<Box display='flex' justifyContent='space-between' px={10}>
+			<Typography variant='h3'>
+				{`${MONTHS[date.getMonth()]} ${date.getFullYear()}`}
+			</Typography>
+			<TextField
+				label='Events search'
+				value={eventSearchValue}
+				onChange={(e) => onEventSearchValueChange(e.target.value)}
+			/>
+		</Box>
 	);
 };

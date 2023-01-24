@@ -7,13 +7,18 @@ import { ContextMenu } from "./ContextMenu";
 
 interface Props {
 	day: Day;
+	eventSearchValue: string;
 }
 
 const SELECTED_COLOR = "#3498db";
 const CURRENT_MONTH_COLOR = "black";
 const NOT_CURRENT_MONTH_COLOR = "#95a5a6";
 
-export const DayComponent: FC<Props> = ({ day }) => {
+export const DayComponent: FC<Props> = ({ day, eventSearchValue }) => {
+	const renderedEvents = day.events?.filter((event) =>
+		event.title.includes(eventSearchValue)
+	);
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -61,7 +66,7 @@ export const DayComponent: FC<Props> = ({ day }) => {
 							{day.dayNumber}
 						</Typography>
 
-						{day.events?.map((event, index) => (
+						{renderedEvents?.map((event, index) => (
 							<EventComponent key={event.id} event={event} index={index} />
 						))}
 					</Box>
