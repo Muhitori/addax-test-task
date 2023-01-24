@@ -20,7 +20,7 @@ export const TagComponent: FC<Props> = ({ tag: { id, title, color } }) => {
 					borderRadius: "5px",
 					cursor: "pointer",
 				}}>
-				<Typography fontSize={8} variant='caption'>
+				<Typography noWrap fontSize={8} variant='caption'>
 					{title}
 				</Typography>
 			</Box>

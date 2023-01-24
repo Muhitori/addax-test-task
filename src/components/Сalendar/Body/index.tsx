@@ -10,6 +10,8 @@ import { daysSelector } from "../../../store/selectors/calendar.selector";
 import { moveEvent, reorderEvents } from "../../../store/slices/calendar.slice";
 import { WEEKDAYS } from "../constants";
 import { DayComponent } from "./Day";
+import { EventModal } from "./modal/EventModal";
+import { TagModal } from "./modal/TagModal";
 
 export const Body: FC = () => {
 	const dispatch = useDispatch();
@@ -69,6 +71,9 @@ export const Body: FC = () => {
 					})}
 				</Box>
 			</DragDropContext>
+
+			<EventModal />
+			<TagModal />
 		</Box>
 	);
 };

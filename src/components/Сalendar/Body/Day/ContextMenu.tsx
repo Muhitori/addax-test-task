@@ -2,6 +2,7 @@ import { Menu, MenuItem } from "@mui/material";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
 import { setCurrentDate } from "../../../../store/slices/calendar.slice";
+import { toggleModal } from "../../../../store/slices/ui.slice";
 import { Day } from "../../../../types";
 
 interface Props {
@@ -25,6 +26,7 @@ export const ContextMenu: FC<Props> = ({
 	};
 
 	const handleAddEvent = () => {
+		dispatch(toggleModal({ modal: "eventModal", data: { date: day.date } }));
 		handleClose();
 	};
 
@@ -45,8 +47,8 @@ export const ContextMenu: FC<Props> = ({
 				vertical: "top",
 				horizontal: "left",
 			}}>
-			<MenuItem onClick={handleDaySelect}>Select day</MenuItem>
 			<MenuItem onClick={handleAddEvent}>Add event</MenuItem>
+			<MenuItem onClick={handleDaySelect}>Select day</MenuItem>
 		</Menu>
 	);
 };

@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import CalendarReducer from "./slices/calendar.slice";
+import UiReducer from "./slices/ui.slice";
 
 export const store = configureStore({
 	reducer: {
 		calendar: CalendarReducer,
+		ui: UiReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

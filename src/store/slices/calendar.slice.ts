@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { Day, Event } from "../../types";
+import { Day, Event, EventDto, TagDto } from "../../types";
 import { dayToEventComporator, getRenderedDays } from "../../utils/date";
 
 interface MoveEventPayload {
@@ -16,7 +16,7 @@ interface ReorderEventPayload {
 	endIndex: number;
 }
 
-export interface State {
+interface State {
 	currentDate: Date;
 	events: Event[];
 	days: Day[];
@@ -25,31 +25,53 @@ export interface State {
 const initialState: State = {
 	currentDate: new Date(),
 	days: [],
-	events: [
-		{
-			id: crypto.randomUUID(),
-			title: "test",
-			color: "red",
-			date: new Date(),
-			tags: [
-				{ id: crypto.randomUUID(), title: "tag1", color: "green" },
-				{ id: crypto.randomUUID(), title: "tag2", color: "yellow" },
-			],
-		},
-		{
-			id: crypto.randomUUID(),
-			title: "test2",
-			color: "yellow",
-			date: new Date(),
-			tags: [{ id: crypto.randomUUID(), title: "tag3", color: "brown" }],
-		},
-	],
+	events: [],
 };
 
 export const calendarSlice = createSlice({
 	name: "calendar",
 	initialState,
 	reducers: {
+		addEvent: (state, action: PayloadAction<EventDto>) => {
+			const { date } = action.payload;
+			const event = { id: crypto.randomUUID(), ...action.payload };
+
+			state.days = state.days.map((day) => {
+				if (day.date === date) {
+					const dayEvents = day.events || [];
+					return {
+						...day,
+						events: [...dayEvents, event],
+					};
+				}
+
+				return day;
+			});
+		},
+		addTag: (state, action: PayloadAction<TagDto>) => {
+			const { date, eventId } = action.payload;
+			const tag = { id: crypto.randomUUID(), ...action.payload };
+
+			state.days = state.days.map((day) => {
+				if (day.date === date) {
+					const events = day.events?.map((event) => {
+						if (event.id === eventId) {
+							const eventTags = event.tags || [];
+							return { ...event, tags: [...eventTags, tag] };
+						}
+
+						return event;
+					});
+
+					return {
+						...day,
+						events,
+					};
+				}
+
+				return day;
+			});
+		},
 		setCurrentDate: (state, action: PayloadAction<Date>) => {
 			const date = action.payload;
 
@@ -115,7 +137,7 @@ export const calendarSlice = createSlice({
 	},
 });
 
-export const { setCurrentDate, moveEvent, reorderEvents } =
+export const { addEvent, addTag, setCurrentDate, moveEvent, reorderEvents } =
 	calendarSlice.actions;
 
 export default calendarSlice.reducer;

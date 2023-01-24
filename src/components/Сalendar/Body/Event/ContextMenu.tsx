@@ -1,5 +1,7 @@
 import { Menu, MenuItem } from "@mui/material";
 import { FC } from "react";
+import { useDispatch } from "react-redux";
+import { toggleModal } from "../../../../store/slices/ui.slice";
 import { Event } from "../../../../types";
 
 interface Props {
@@ -15,7 +17,15 @@ export const ContextMenu: FC<Props> = ({
 	open,
 	handleClose,
 }) => {
+	const dispatch = useDispatch();
+
 	const handleAddTag = () => {
+		dispatch(
+			toggleModal({
+				modal: "tagModal",
+				data: { eventId: event.id, date: event.date },
+			})
+		);
 		handleClose();
 	};
 

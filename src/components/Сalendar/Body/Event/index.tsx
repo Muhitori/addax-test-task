@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { FC, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
@@ -39,7 +40,9 @@ export const EventComponent: FC<Props> = ({ event, index }) => {
 						px={2}
 						mb={1}
 						onContextMenu={handleRightClick}>
-						{event.title}
+						<Typography fontSize={12} noWrap>
+							{event.title}
+						</Typography>
 
 						<Box
 							sx={{
