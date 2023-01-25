@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/addax-test-task/static/css/main.fcd4f4f7.css",
+    "main.js": "/addax-test-task/static/js/main.3bd942ba.js",
+    "static/js/787.aa39922b.chunk.js": "/addax-test-task/static/js/787.aa39922b.chunk.js",
+    "index.html": "/addax-test-task/index.html",
+    "main.fcd4f4f7.css.map": "/addax-test-task/static/css/main.fcd4f4f7.css.map",
+    "main.3bd942ba.js.map": "/addax-test-task/static/js/main.3bd942ba.js.map",
+    "787.aa39922b.chunk.js.map": "/addax-test-task/static/js/787.aa39922b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fcd4f4f7.css",
+    "static/js/main.3bd942ba.js"
+  ]
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.fcd4f4f7.css","mappings":"AAAA,gBAIC,qBAAuB,CADvB,WAED","sources":["index.css"],"sourcesContent":["html,\nbody,\n#root {\n\theight: 100%;\n\tbackground-color: white;\n}\n"],"names":[],"sourceRoot":""}
